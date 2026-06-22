@@ -1,0 +1,6 @@
+{
+  "name": "Job Application Tracker",
+  "description": "An elegant, reactive dashboard to track your job applications, analyze metrics, and manage interview details, statuses, and notes.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
