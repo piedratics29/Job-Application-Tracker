@@ -10,18 +10,18 @@ import { CurrencyPipe, DatePipe } from '@angular/common';
   selector: 'app-applications-list',
   imports: [ReactiveFormsModule, MatIconModule, CurrencyPipe, DatePipe],
   template: `
-    <div class="space-y-6 font-sans">
+    <div class="min-w-0 space-y-6 font-sans">
       
       <!-- Top Action Hub Header -->
       <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
-        <div>
+        <div class="min-w-0">
           <h2 class="text-2xl sm:text-3xl font-extrabold tracking-tight text-zinc-900">Job Applications</h2>
           <p class="text-sm text-zinc-500 mt-1">Keep track of your active opportunities, interviews, and progress timeline.</p>
         </div>
-        <div>
+        <div class="w-full sm:w-auto shrink-0">
           <button
             (click)="openCreateForm()"
-            class="inline-flex items-center gap-2 px-5 py-2.5 h-10 bg-indigo-600 hover:bg-indigo-500 text-white text-sm font-semibold rounded-xl shadow-sm shadow-indigo-600/10 cursor-pointer transition-colors"
+            class="inline-flex w-full sm:w-auto items-center justify-center gap-2 px-5 py-2.5 h-10 bg-indigo-600 hover:bg-indigo-500 text-white text-sm font-semibold rounded-xl shadow-sm shadow-indigo-600/10 cursor-pointer transition-colors"
           >
             <mat-icon class="text-lg">post_add</mat-icon>
             Add Application
@@ -30,10 +30,10 @@ import { CurrencyPipe, DatePipe } from '@angular/common';
       </div>
 
       <!-- Filters & Search Toolbar -->
-      <div class="bg-white p-4 rounded-2xl border border-zinc-200/60 shadow-sm flex flex-col md:flex-row gap-4 items-center justify-between">
+      <div class="bg-white p-4 rounded-2xl border border-zinc-200/60 shadow-sm flex flex-col xl:flex-row gap-4 items-center justify-between">
         
         <!-- Interactive Search -->
-        <div class="relative w-full md:max-w-md">
+        <div class="relative w-full xl:max-w-md">
           <div class="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none text-zinc-400">
             <mat-icon class="text-lg">search</mat-icon>
           </div>
@@ -47,7 +47,7 @@ import { CurrencyPipe, DatePipe } from '@angular/common';
         </div>
 
         <!-- Filter Pills Segment -->
-        <div class="flex flex-wrap gap-1.5 w-full md:w-auto items-center">
+        <div class="flex flex-wrap gap-1.5 w-full xl:w-auto items-center">
           <span class="text-xs font-semibold text-zinc-400 mr-1.5 hidden lg:inline">Filter:</span>
           
           <button
@@ -72,9 +72,81 @@ import { CurrencyPipe, DatePipe } from '@angular/common';
 
       <!-- Main Result List / Table -->
       <div class="bg-white rounded-2xl border border-zinc-200/60 shadow-sm overflow-hidden">
-        
-        <!-- Responsive Grid / Responsive Table -->
-        <div class="overflow-x-auto">
+
+        <!-- Mobile application cards -->
+        <div class="divide-y divide-zinc-100 md:hidden">
+          @for (app of filteredApplications(); track app.id) {
+            <article class="p-4">
+              <div class="flex items-start justify-between gap-3">
+                <button
+                  type="button"
+                  (click)="openDetailView(app)"
+                  class="min-w-0 cursor-pointer text-left focus:outline-none"
+                >
+                  <span class="block truncate text-sm font-bold text-zinc-900">{{ app.companyName }}</span>
+                  <span class="mt-0.5 block truncate text-xs font-medium text-zinc-500">{{ app.jobPosition }}</span>
+                </button>
+                <span [class]="getStatusClass(app.status)">
+                  {{ app.status }}
+                </span>
+              </div>
+
+              <div class="mt-4 grid grid-cols-2 gap-3 rounded-xl bg-zinc-50 p-3">
+                <div>
+                  <span class="block text-[10px] font-bold uppercase tracking-wider text-zinc-400">Offer target</span>
+                  <span class="mt-1 block text-xs font-semibold text-zinc-700">
+                    @if (app.salaryOffered) {
+                      {{ app.salaryOffered | currency:'USD':'symbol':'1.0-0' }}
+                    } @else {
+                      Unspecified
+                    }
+                  </span>
+                </div>
+                <div>
+                  <span class="block text-[10px] font-bold uppercase tracking-wider text-zinc-400">Applied</span>
+                  <span class="mt-1 block text-xs font-semibold text-zinc-700">{{ app.applicationDate | date:'mediumDate' }}</span>
+                </div>
+              </div>
+
+              <div class="mt-3 flex items-center justify-end gap-1">
+                <button
+                  (click)="openDetailView(app)"
+                  title="View Details"
+                  aria-label="View application details"
+                  class="p-2 rounded-lg text-zinc-400 hover:text-zinc-700 hover:bg-zinc-100 transition-colors cursor-pointer"
+                >
+                  <mat-icon class="text-lg">visibility</mat-icon>
+                </button>
+                <button
+                  (click)="openEditForm(app)"
+                  title="Edit application"
+                  aria-label="Edit application"
+                  class="p-2 rounded-lg text-zinc-400 hover:text-indigo-600 hover:bg-indigo-50 transition-colors cursor-pointer"
+                >
+                  <mat-icon class="text-lg">edit</mat-icon>
+                </button>
+                <button
+                  (click)="onDeleteConfirm(app)"
+                  title="Remove application"
+                  aria-label="Remove application"
+                  class="p-2 rounded-lg text-zinc-400 hover:text-red-600 hover:bg-red-50 transition-colors cursor-pointer"
+                >
+                  <mat-icon class="text-lg">delete_sweep</mat-icon>
+                </button>
+              </div>
+            </article>
+          } @empty {
+            <div class="py-14 px-4 text-center text-sm text-zinc-400 space-y-3">
+              <div class="inline-flex p-3 rounded-full bg-zinc-50 text-zinc-400">
+                <mat-icon class="text-3xl leading-none">filter_list_off</mat-icon>
+              </div>
+              <p class="font-medium text-zinc-500">No applications match your filters.</p>
+            </div>
+          }
+        </div>
+
+        <!-- Desktop table -->
+        <div class="hidden md:block overflow-x-auto">
           <table class="w-full text-left text-sm border-collapse">
             <thead>
               <tr class="bg-zinc-50/70 border-b border-zinc-200/60 text-xs font-bold uppercase tracking-wider text-zinc-400">
@@ -175,12 +247,12 @@ import { CurrencyPipe, DatePipe } from '@angular/common';
 
       <!-- FORMS OVERLAY MODAL (CREATE AND UPDATE) -->
       @if (isFormOpen()) {
-        <div class="fixed inset-0 bg-black/40 backdrop-blur-xs flex items-center justify-center z-50 p-4 animate-in fade-in duration-200">
-          <div class="bg-white w-full max-w-lg rounded-2xl shadow-xl border border-zinc-200 overflow-hidden flex flex-col animate-in zoom-in-95 duration-200">
+        <div class="fixed inset-0 bg-black/40 backdrop-blur-xs flex items-end sm:items-center justify-center z-50 p-0 sm:p-4 animate-in fade-in duration-200">
+          <div class="bg-white w-full max-w-lg max-h-[95vh] sm:max-h-none rounded-t-2xl sm:rounded-2xl shadow-xl border border-zinc-200 overflow-hidden flex flex-col animate-in zoom-in-95 duration-200">
             
             <!-- Modal Header -->
-            <div class="px-6 py-4 border-b border-zinc-100 flex items-center justify-between bg-zinc-50">
-              <h3 class="text-base font-bold text-zinc-900 flex items-center gap-2">
+            <div class="px-4 sm:px-6 py-4 border-b border-zinc-100 flex items-center justify-between gap-3 bg-zinc-50">
+              <h3 class="min-w-0 text-sm sm:text-base font-bold text-zinc-900 flex items-center gap-2">
                 <mat-icon class="text-indigo-600">{{ isEditMode() ? 'edit_note' : 'post_add' }}</mat-icon>
                 {{ isEditMode() ? 'Edit Opportunity Details' : 'Create Tracking Sequence' }}
               </h3>
@@ -190,7 +262,7 @@ import { CurrencyPipe, DatePipe } from '@angular/common';
             </div>
 
             <!-- Form Body -->
-            <form [formGroup]="appForm" (ngSubmit)="onFormSubmit()" class="p-6 space-y-4 overflow-y-auto max-h-[75vh]">
+            <form [formGroup]="appForm" (ngSubmit)="onFormSubmit()" class="p-4 sm:p-6 space-y-4 overflow-y-auto">
               
               <!-- Company Name -->
               <div>
@@ -284,17 +356,17 @@ import { CurrencyPipe, DatePipe } from '@angular/common';
               </div>
 
               <!-- Action buttons inside form -->
-              <div class="pt-4 border-t border-zinc-100 flex items-center justify-end gap-3">
+              <div class="pt-4 border-t border-zinc-100 flex flex-col-reverse sm:flex-row sm:items-center sm:justify-end gap-3">
                 <button
                   type="button"
                   (click)="closeForm()"
-                  class="px-4 py-2 border border-zinc-200 text-zinc-700 font-semibold rounded-xl text-xs hover:bg-zinc-50 transition-colors cursor-pointer"
+                  class="w-full sm:w-auto px-4 py-2 border border-zinc-200 text-zinc-700 font-semibold rounded-xl text-xs hover:bg-zinc-50 transition-colors cursor-pointer"
                 >
                   Cancel
                 </button>
                 <button
                   type="submit"
-                  class="px-4.5 py-2 bg-indigo-600 hover:bg-indigo-500 text-white font-semibold rounded-xl text-xs flex items-center gap-1.5 shadow-sm shadow-indigo-600/10 cursor-pointer transition-colors"
+                  class="w-full sm:w-auto px-4.5 py-2 bg-indigo-600 hover:bg-indigo-500 text-white font-semibold rounded-xl text-xs flex items-center justify-center gap-1.5 shadow-sm shadow-indigo-600/10 cursor-pointer transition-colors"
                 >
                   <mat-icon class="text-sm">save</mat-icon>
                   Save Application
@@ -307,12 +379,12 @@ import { CurrencyPipe, DatePipe } from '@angular/common';
 
       <!-- DETAIL VIEW SUMMARY DIALOG -->
       @if (isDetailOpen() && activeApp()) {
-        <div class="fixed inset-0 bg-black/40 backdrop-blur-xs flex items-center justify-center z-50 p-4 animate-in fade-in duration-200">
-          <div class="bg-white w-full max-w-lg rounded-2xl shadow-xl border border-zinc-200 overflow-hidden flex flex-col animate-in zoom-in-95 duration-200">
+        <div class="fixed inset-0 bg-black/40 backdrop-blur-xs flex items-end sm:items-center justify-center z-50 p-0 sm:p-4 animate-in fade-in duration-200">
+          <div class="bg-white w-full max-w-lg max-h-[95vh] rounded-t-2xl sm:rounded-2xl shadow-xl border border-zinc-200 overflow-y-auto flex flex-col animate-in zoom-in-95 duration-200">
             
             <!-- Company Info block -->
-            <div class="px-6 py-5 bg-zinc-50 border-b border-zinc-100 flex items-start justify-between">
-              <div>
+            <div class="px-4 sm:px-6 py-5 bg-zinc-50 border-b border-zinc-100 flex items-start justify-between gap-3">
+              <div class="min-w-0">
                 <span [class]="getStatusClass(activeApp()!.status)">{{ activeApp()!.status }}</span>
                 <h3 class="text-xl font-extrabold text-zinc-900 mt-2">{{ activeApp()!.companyName }}</h3>
                 <p class="text-sm font-semibold text-zinc-600">{{ activeApp()!.jobPosition }}</p>
@@ -323,9 +395,9 @@ import { CurrencyPipe, DatePipe } from '@angular/common';
             </div>
 
             <!-- Detail Grid values -->
-            <div class="px-6 py-5 space-y-5">
+            <div class="px-4 sm:px-6 py-5 space-y-5">
               
-              <div class="grid grid-cols-2 gap-4">
+              <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 <div class="bg-zinc-50 p-3 rounded-xl border border-zinc-100">
                   <span class="block text-[10px] font-bold text-zinc-400 uppercase tracking-widest leading-none">Offer Target</span>
                   <span class="text-sm font-mono text-zinc-800 font-bold block mt-1.5">
@@ -355,7 +427,7 @@ import { CurrencyPipe, DatePipe } from '@angular/common';
             </div>
 
             <!-- Footer Operations -->
-            <div class="px-6 py-4 bg-zinc-50 border-t border-zinc-100 flex items-center justify-between">
+            <div class="px-4 sm:px-6 py-4 bg-zinc-50 border-t border-zinc-100 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
               <!-- Safety Delete button -->
               <button
                 (click)="onDeleteConfirm(activeApp()!)"
@@ -365,7 +437,7 @@ import { CurrencyPipe, DatePipe } from '@angular/common';
                 Delete File
               </button>
 
-              <div class="flex items-center gap-2">
+              <div class="flex w-full sm:w-auto items-center justify-end gap-2">
                 <button
                   (click)="openEditForm(activeApp()!)"
                   class="px-3.5 py-2 border border-zinc-200 text-zinc-700 font-semibold rounded-lg text-xs hover:bg-zinc-150 transition-colors flex items-center gap-1 cursor-pointer bg-white"

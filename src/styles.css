@@ -24,3 +24,9 @@
   -webkit-font-feature-settings: 'liga';
   -webkit-font-smoothing: antialiased;
 }
+
+.mat-icon {
+  display: flex !important;
+  height: auto !important;
+  width: auto !important;
+}

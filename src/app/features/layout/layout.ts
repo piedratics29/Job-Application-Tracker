@@ -8,10 +8,10 @@ import { MatIconModule } from '@angular/material/icon';
   selector: 'app-layout',
   imports: [RouterOutlet, RouterLink, RouterLinkActive, MatIconModule],
   template: `
-    <div class="min-h-screen bg-zinc-50 flex font-sans">
+    <div class="min-h-screen min-w-0 overflow-x-hidden bg-zinc-50 flex font-sans">
       
       <!-- Desktop Sidebar -->
-      <aside class="hidden md:flex md:w-64 md:flex-col fixed md:inset-y-0 bg-white border-r border-zinc-200/80 z-20">
+      <aside class="hidden lg:flex lg:w-64 lg:flex-col fixed lg:inset-y-0 bg-white border-r border-zinc-200/80 z-20">
         <!-- Logo Header -->
         <div class="flex items-center gap-2.5 px-6 h-16 border-b border-zinc-100">
           <div class="bg-indigo-600 text-white p-2 rounded-lg flex items-center justify-center shadow-sm shadow-indigo-600/15">
@@ -68,20 +68,22 @@ import { MatIconModule } from '@angular/material/icon';
       </aside>
 
       <!-- Mobile Top Bar & Drawer Navigation -->
-      <div class="flex-1 flex flex-col md:pl-64">
+      <div class="flex-1 min-w-0 w-full flex flex-col lg:pl-64">
         <!-- Top Navbar Header -->
-        <header class="sticky top-0 z-10 bg-white border-b border-zinc-200/80 h-16 flex items-center justify-between px-4 sm:px-6">
-          <div class="flex items-center gap-3">
+        <header class="sticky top-0 z-10 bg-white border-b border-zinc-200/80 min-h-16 flex items-center justify-between gap-3 px-3 py-2 sm:px-6">
+          <div class="flex min-w-0 items-center gap-2 sm:gap-3">
             <!-- Hamburger menu button -->
             <button
               (click)="toggleMobileMenu()"
-              class="md:hidden p-2 rounded-xl text-zinc-500 hover:bg-zinc-50 focus:outline-none focus:ring-2 focus:ring-indigo-600/10"
+              class="lg:hidden shrink-0 p-2 rounded-xl text-zinc-500 hover:bg-zinc-50 focus:outline-none focus:ring-2 focus:ring-indigo-600/10"
+              aria-label="Toggle navigation menu"
             >
               <mat-icon>{{ mobileMenuOpen() ? 'close' : 'menu' }}</mat-icon>
             </button>
             
-            <h1 class="text-base sm:text-lg font-bold text-zinc-800 tracking-tight flex items-center gap-2">
-              Welcome back, <span class="text-indigo-600 font-extrabold select-all">{{ auth.currentUser()?.username }}</span>!
+            <h1 class="min-w-0 truncate text-sm sm:text-lg font-bold text-zinc-800 tracking-tight">
+              Welcome back,
+              <span class="text-indigo-600 font-extrabold select-all">{{ auth.currentUser()?.username }}</span>!
             </h1>
           </div>
 
@@ -99,11 +101,11 @@ import { MatIconModule } from '@angular/material/icon';
           <button
             type="button"
             (click)="closeMobileMenu()"
-            class="md:hidden fixed inset-0 bg-black/40 z-30 transition-opacity block w-full h-full text-left border-none focus:outline-none cursor-default"
+            class="lg:hidden fixed inset-0 bg-black/40 z-30 transition-opacity block w-full h-full text-left border-none focus:outline-none cursor-default"
             aria-label="Close mobile menu"
           ></button>
           
-          <aside class="md:hidden fixed inset-y-0 left-0 w-72 bg-white shadow-2xl z-40 flex flex-col justify-between py-6 px-4 animate-in slide-in-from-left duration-200">
+          <aside class="lg:hidden fixed inset-y-0 left-0 w-[min(18rem,calc(100vw-2rem))] bg-white shadow-2xl z-40 flex flex-col justify-between py-6 px-4 animate-in slide-in-from-left duration-200">
             <div>
               <div class="flex items-center justify-between pb-6 border-b border-zinc-100 mb-6">
                 <div class="flex items-center gap-2.5">
@@ -164,7 +166,7 @@ import { MatIconModule } from '@angular/material/icon';
         }
 
         <!-- Main Workspace Router Outlet -->
-        <main class="flex-1 p-4 sm:p-6 lg:p-8">
+        <main class="flex-1 min-w-0 p-4 sm:p-6 xl:p-8">
           <router-outlet></router-outlet>
         </main>
       </div>

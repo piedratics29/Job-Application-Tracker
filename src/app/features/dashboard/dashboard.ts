@@ -9,17 +9,17 @@ import { CurrencyPipe, DatePipe, PercentPipe } from '@angular/common';
   selector: 'app-dashboard',
   imports: [RouterLink, MatIconModule, CurrencyPipe, DatePipe, PercentPipe],
   template: `
-    <div class="space-y-8 font-sans">
+    <div class="min-w-0 space-y-6 xl:space-y-8 font-sans">
       <!-- Greeting and Header Actions -->
       <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
-        <div>
+        <div class="min-w-0">
           <h2 class="text-2xl sm:text-3xl font-extrabold tracking-tight text-zinc-900">Career Hub</h2>
           <p class="text-sm text-zinc-500 mt-1">Supercharge your job search pipeline and analyze response metrics over time.</p>
         </div>
-        <div>
+        <div class="w-full sm:w-auto shrink-0">
           <a
             routerLink="/applications"
-            class="inline-flex items-center gap-2 px-5 py-2.5 h-10 bg-indigo-600 hover:bg-indigo-500 text-white text-sm font-semibold rounded-xl shadow-sm shadow-indigo-600/10 cursor-pointer transition-colors"
+            class="inline-flex w-full sm:w-auto items-center justify-center gap-2 px-5 py-2.5 h-10 bg-indigo-600 hover:bg-indigo-500 text-white text-sm font-semibold rounded-xl shadow-sm shadow-indigo-600/10 cursor-pointer transition-colors"
           >
             <mat-icon class="text-lg">add</mat-icon>
             Manage Applications
@@ -28,9 +28,9 @@ import { CurrencyPipe, DatePipe, PercentPipe } from '@angular/common';
       </div>
 
       <!-- Quick Summary Stats Grid -->
-      <div class="grid grid-cols-2 lg:grid-cols-5 gap-4">
+      <div class="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-5 gap-3 sm:gap-4">
         <!-- Total Card -->
-        <div class="bg-white p-5 rounded-2xl shadow-sm border border-zinc-200/60 flex flex-col justify-between h-32 group hover:border-indigo-200 transition-all">
+        <div class="bg-white p-4 sm:p-5 rounded-2xl shadow-sm border border-zinc-200/60 flex flex-col justify-between min-h-32 group hover:border-indigo-200 transition-all">
           <div class="flex justify-between items-start">
             <span class="text-xs font-semibold text-zinc-500 uppercase tracking-wider">Total</span>
             <div class="p-1.5 rounded-lg bg-zinc-50 text-zinc-500 group-hover:bg-indigo-50 group-hover:text-indigo-600 transition-all">
@@ -44,7 +44,7 @@ import { CurrencyPipe, DatePipe, PercentPipe } from '@angular/common';
         </div>
 
         <!-- Pending Card -->
-        <div class="bg-white p-5 rounded-2xl shadow-sm border border-zinc-200/60 flex flex-col justify-between h-32 group hover:border-amber-200 transition-all">
+        <div class="bg-white p-4 sm:p-5 rounded-2xl shadow-sm border border-zinc-200/60 flex flex-col justify-between min-h-32 group hover:border-amber-200 transition-all">
           <div class="flex justify-between items-start">
             <span class="text-xs font-semibold text-zinc-500 uppercase tracking-wider">Pending</span>
             <div class="p-1.5 rounded-lg bg-amber-50 text-amber-600">
@@ -58,7 +58,7 @@ import { CurrencyPipe, DatePipe, PercentPipe } from '@angular/common';
         </div>
 
         <!-- Interview Card -->
-        <div class="bg-white p-5 rounded-2xl shadow-sm border border-zinc-200/60 flex flex-col justify-between h-32 group hover:border-indigo-200 transition-all">
+        <div class="bg-white p-4 sm:p-5 rounded-2xl shadow-sm border border-zinc-200/60 flex flex-col justify-between min-h-32 group hover:border-indigo-200 transition-all">
           <div class="flex justify-between items-start">
             <span class="text-xs font-semibold text-zinc-500 uppercase tracking-wider">Interviews</span>
             <div class="p-1.5 rounded-lg bg-indigo-50 text-indigo-600">
@@ -72,7 +72,7 @@ import { CurrencyPipe, DatePipe, PercentPipe } from '@angular/common';
         </div>
 
          <!-- Hired Card -->
-        <div class="bg-white p-5 rounded-2xl shadow-sm border border-zinc-200/60 flex flex-col justify-between h-32 group hover:border-emerald-200 transition-all">
+        <div class="bg-white p-4 sm:p-5 rounded-2xl shadow-sm border border-zinc-200/60 flex flex-col justify-between min-h-32 group hover:border-emerald-200 transition-all">
           <div class="flex justify-between items-start">
             <span class="text-xs font-semibold text-zinc-500 uppercase tracking-wider">Hired</span>
             <div class="p-1.5 rounded-lg bg-emerald-50 text-emerald-600">
@@ -86,7 +86,7 @@ import { CurrencyPipe, DatePipe, PercentPipe } from '@angular/common';
         </div>
 
         <!-- Rejected Card -->
-        <div class="bg-white p-5 rounded-2xl shadow-sm border border-zinc-200/60 flex flex-col justify-between h-32 group hover:border-red-200 transition-all col-span-2 lg:col-span-1">
+        <div class="bg-white p-4 sm:p-5 rounded-2xl shadow-sm border border-zinc-200/60 flex flex-col justify-between min-h-32 group hover:border-red-200 transition-all">
           <div class="flex justify-between items-start">
             <span class="text-xs font-semibold text-zinc-500 uppercase tracking-wider">Rejected</span>
             <div class="p-1.5 rounded-lg bg-red-50 text-red-600">
@@ -101,9 +101,9 @@ import { CurrencyPipe, DatePipe, PercentPipe } from '@angular/common';
       </div>
 
       <!-- Advanced Metrical Insights Layout -->
-      <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+      <div class="grid grid-cols-1 xl:grid-cols-3 gap-4 sm:gap-6">
         <!-- Visual Funnel & Analytics -->
-        <div class="bg-white p-6 rounded-2xl shadow-sm border border-zinc-200/60 space-y-6 lg:col-span-1">
+        <div class="min-w-0 bg-white p-4 sm:p-6 rounded-2xl shadow-sm border border-zinc-200/60 space-y-6 xl:col-span-1">
           <div>
             <h3 class="text-sm font-bold text-zinc-900 uppercase tracking-wider">Pipeline Analytics</h3>
             <p class="text-xs text-zinc-500 mt-0.5">Automated success conversion metrics.</p>
@@ -151,7 +151,7 @@ import { CurrencyPipe, DatePipe, PercentPipe } from '@angular/common';
         </div>
 
         <!-- Recent Applications Table Section -->
-        <div class="bg-white p-6 rounded-2xl shadow-sm border border-zinc-200/60 lg:col-span-2 space-y-5">
+        <div class="min-w-0 bg-white p-4 sm:p-6 rounded-2xl shadow-sm border border-zinc-200/60 xl:col-span-2 space-y-5">
           <div class="flex items-center justify-between">
             <div>
               <h3 class="text-sm font-bold text-zinc-900 uppercase tracking-wider">Recent Activity</h3>
@@ -166,7 +166,39 @@ import { CurrencyPipe, DatePipe, PercentPipe } from '@angular/common';
             </a>
           </div>
 
-          <div class="overflow-x-auto">
+          <!-- Compact recent-activity cards for phones -->
+          <div class="space-y-3 sm:hidden">
+            @for (app of recentApps(); track app.id) {
+              <div class="rounded-xl border border-zinc-100 bg-zinc-50/70 p-3.5">
+                <div class="flex items-start justify-between gap-3">
+                  <div class="min-w-0">
+                    <p class="truncate text-sm font-bold text-zinc-900">{{ app.companyName }}</p>
+                    <p class="mt-0.5 truncate text-xs text-zinc-500">{{ app.jobPosition }}</p>
+                  </div>
+                  <span [class]="getStatusClass(app.status)">
+                    {{ app.status }}
+                  </span>
+                </div>
+                <div class="mt-3 flex items-center justify-between gap-3 border-t border-zinc-200/70 pt-3 text-xs">
+                  <span class="text-zinc-400">{{ app.applicationDate | date:'mediumDate' }}</span>
+                  <span class="font-mono font-semibold text-zinc-700">
+                    @if (app.salaryOffered) {
+                      {{ app.salaryOffered | currency:'USD':'symbol':'1.0-0' }}
+                    } @else {
+                      <span class="font-sans font-normal text-zinc-400">Not specified</span>
+                    }
+                  </span>
+                </div>
+              </div>
+            } @empty {
+              <div class="py-10 text-center text-sm text-zinc-400">
+                <mat-icon class="text-zinc-300 text-3xl">inbox</mat-icon>
+                <p class="mt-2">No job applications logged or active yet.</p>
+              </div>
+            }
+          </div>
+
+          <div class="hidden sm:block overflow-x-auto">
             <table class="w-full text-left text-sm border-collapse">
               <thead>
                 <tr class="border-b border-zinc-100 text-xs font-bold uppercase tracking-wider text-zinc-400">
